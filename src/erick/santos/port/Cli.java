@@ -23,7 +23,7 @@ public class Cli {
     }
 
     public void printProcessStatusHeader() {
-        String message = "\tNome\t|\tstatus\t|\tcreated time\t|\tstarted time\t|\twaiting time (ms)\t\n";
+        String message = "\n\tNome\t|\tstatus\t|\tcreated time\t|\tstarted time\t|\twaiting time (ms)\t\n";
         printMessage(message);
     }
 
@@ -36,12 +36,25 @@ public class Cli {
         printMessage(message);
     }
 
+    public void printAllProcessStatus(MultiLevelQueue multiLevelQueue) {
+        if (multiLevelQueue.isNotEmpty()) {
+            for (int i = 0; i < multiLevelQueue.getSize(); i++) {
+                for (int j = 0; j < multiLevelQueue.getQueueByIndex(i).getSize(); j++) {
+                    printProcessStatus(multiLevelQueue.getQueueByIndex(i).getProcess(j));
+                }
+            }
+        } else {
+            printMessage("Vazio\n");
+        }
+    }
+
     public void printMultiLevelQueue(MultiLevelQueue multiLevelQueue) {
         if (multiLevelQueue.isNotEmpty()) {
             for (int i = 0; i < multiLevelQueue.getSize(); i++) {
-                printMessage("Lista " + i + " prioridade = " + multiLevelQueue.getQueueByIndex(i).getPriority() + "\n");
+                printMessage("\tLista " + i + " prioridade = " + multiLevelQueue.getQueueByIndex(i).getPriority() + "\n");
                 for (int j = 0; j < multiLevelQueue.getQueueByIndex(i).getSize(); j++) {
-                    printMessage("Process name: " + multiLevelQueue.getQueueByIndex(i).getProcess(j).getName() + "\n");
+                    printMessage("\t\tProcess name: " + multiLevelQueue.getQueueByIndex(i).getProcess(j).getName() +
+                            "\tCPU Burst: " + multiLevelQueue.getQueueByIndex(i).getProcess(j).getCpuBurst() + "\n");
                 }
             }
         } else {

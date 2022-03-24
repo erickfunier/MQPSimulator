@@ -15,6 +15,7 @@ public class Main {
         controller.processReceive();
 
         // Realiza a impressao da multilevel queue antes de iniciar o escalonamento e execucao
+        cli.printMessage("Multilevel Queue criada:\n");
         cli.printMultiLevelQueue(multiLevelQueue);
 
         // Inicia o escalonamento e mostra os resultados

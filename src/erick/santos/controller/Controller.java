@@ -40,6 +40,7 @@ public class Controller {
     public void processEscalation() {
         long createdTime = System.currentTimeMillis(); // usado como createdTime para todos os processos
 
+        cli.printMessage("\nEscalonamento em execução:");
         cli.printProcessStatusHeader(); // Realiza a impressao de um header para a tabela de execucao dos processos
 
         /*
@@ -54,13 +55,11 @@ public class Controller {
          */
 
         int index = 0;
-        boolean looping = false; // usado para parar a execucao do programa pois identifica que nao ocorre
+        boolean looping = false; // usado para parar a execucao do programa
         int watchDogCounter = multiLevelQueue.getQueueByIndex(0).getSize();
 
         while (!looping) {
             //cli.printMultiLevelQueue(multiLevelQueue);
-
-            //cli.printMessage("Process name: " + multiLevelQueue.getQueueByIndex(0).getProcess(index).getName() + " index: " + index + "\n");
 
             long burstTime = multiLevelQueue.getQueueByIndex(0).getProcess(index).getCpuBurst();
             int queueSize = multiLevelQueue.getQueueByIndex(0).getSize(); // necessario para validar se a queue teve alguma modificacao
@@ -107,10 +106,15 @@ public class Controller {
                 watchDogCounter = multiLevelQueue.getQueueByIndex(0).getSize();
             }
         }
+        cli.printMessage("Escalonamento finalizado\n");
     }
 
     public void processResults() {
-
+        cli.printMessage("\nResultados do escalonamento:");
+        cli.printProcessStatusHeader(); // Realiza a impressao de um header para a tabela de execucao dos processos
+        cli.printAllProcessStatus(multiLevelQueue); // Realiza a impressao do status de todos os processos
+        cli.printMessage("\nMultilevel Queue escalonada:\n");
+        cli.printMultiLevelQueue(multiLevelQueue);
     }
     /* Etapas de execucao start */
 
